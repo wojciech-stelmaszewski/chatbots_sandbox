@@ -22,7 +22,7 @@ namespace WeatherBot.Dialogs
             return
                 (from option in new OptionsDialog("What are you interested in?", options) select option).Switch(
                     // If the user chose Bots
-                    new Case<string, IDialog<object>>(x => x.Equals(Bots), (_, __) =>
+                    new Case<string, IDialog<object>>(x => Bots.Equals(x), (_, __) =>
                         from questionToUser in new DisplayStringDialog("What do you want to know about Bots?")
                         from intent in new WitIntentValueDialog("E6DFDKGS4STETYSJ7DVS6YASQFZNKTPX")
                         from answer in new MsBotFaqAnswerDialog(intent)
@@ -30,7 +30,7 @@ namespace WeatherBot.Dialogs
                         select result),
 
                      // If the user chose Weather
-                     new Case<string, IDialog<object>>(x => x.Equals(Weather), (_, __) =>
+                     new Case<string, IDialog<object>>(x => Weather.Equals(x), (_, __) =>
                         (from location in new QuestionDialog("What is your location?")
                         from geoLocation in new GeoLocationDialog(location, GoogleLocationServiceApiKey, Language) select geoLocation).Switch(
                              new Case<GeoLocation, IDialog<object>>(g => g != null, (x, geo) =>
@@ -43,7 +43,7 @@ namespace WeatherBot.Dialogs
                             ).Unwrap()),
 
                      // If the user chose something else
-                     new Case<string, IDialog<object>>(x => x.Equals(SomethingElse), (_, __) =>
+                     new Case<string, IDialog<object>>(x => SomethingElse.Equals(x), (_, __) =>
                         from result in new DisplayStringDialog("I'm sorry to hear that.....What's wrong with Weather or Bots!")
                         select result),
 
