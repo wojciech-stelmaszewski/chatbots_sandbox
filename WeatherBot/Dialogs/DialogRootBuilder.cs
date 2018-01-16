@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.Bot.Builder.Dialogs;
+using WeatherBot.Geo;
 
 namespace WeatherBot.Dialogs
 {
     [Serializable]
     public static class DialogRootBuilder
     {
+        private const string GoogleLocationServiceApiKey = "AIzaSyDHU9LNBAOCMw3k0jLuArFMw4YoPh7d-z0";
+        private const string Language = "en-GB";
+
         private const string Weather = "Weather";
         private const string Bots = "Bots";
         private const string SomethingElse = "Something else";
@@ -24,10 +28,19 @@ namespace WeatherBot.Dialogs
                         from answer in new MsBotFaqAnswerDialog(intent)
                         from result in new DisplayStringDialog(answer)
                         select result),
+
                      // If the user chose Weather
                      new Case<string, IDialog<object>>(x => x.Equals(Weather), (_, __) =>
-                        from result in new DisplayStringDialog("Weather => Coming to a town near you soon!")
-                        select result),
+                        (from location in new QuestionDialog("What is your location?")
+                        from geoLocation in new GeoLocationDialog(location, GoogleLocationServiceApiKey, Language) select geoLocation).Switch(
+                             new Case<GeoLocation, IDialog<object>>(g => g != null, (x, geo) =>
+                             from weatherString in new WeatherDialog(geo.Latitude, geo.Longitude)
+                             from result in new DisplayStringDialog(weatherString)
+                             select result),
+                            new Case<GeoLocation, IDialog<object>>(g => g == null, (x, xx) =>
+                             from result in new DisplayStringDialog("Sorry - I don't know where that is!")
+                             select result)
+                            ).Unwrap()),
 
                      // If the user chose something else
                      new Case<string, IDialog<object>>(x => x.Equals(SomethingElse), (_, __) =>
