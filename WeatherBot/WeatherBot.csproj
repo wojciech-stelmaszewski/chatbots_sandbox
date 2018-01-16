@@ -121,6 +121,14 @@
     <Compile Include="Dialogs\WitIntentValueDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
     <Compile Include="Faq\MicrosoftBotFrameworkFaq.cs" />
+    <Compile Include="Geo\AddressComponent.cs" />
+    <Compile Include="Geo\GeocodeResponse.cs" />
+    <Compile Include="Geo\GeocodingRequest.cs" />
+    <Compile Include="Geo\GeoLocation.cs" />
+    <Compile Include="Geo\Geometry.cs" />
+    <Compile Include="Geo\GoogleLocationService.cs" />
+    <Compile Include="Geo\LatLng.cs" />
+    <Compile Include="Geo\Result.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -129,6 +137,8 @@
     <Compile Include="Services\Wit\WitIntent.cs" />
     <Compile Include="Services\Wit\WitResponse.cs" />
     <Compile Include="Services\Wit\WitService.cs" />
+    <Compile Include="Weather\OpenWeatherClient.cs" />
+    <Compile Include="Weather\OpenWeatherResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
