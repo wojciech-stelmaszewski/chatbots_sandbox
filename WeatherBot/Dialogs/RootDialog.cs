@@ -7,15 +7,15 @@ namespace WeatherBot.Dialogs
     [Serializable]
     public class RootDialog : IDialog<object>
     {
-        public Task StartAsync(IDialogContext context)
+        public async Task StartAsync(IDialogContext context)
         {
-            context.Call(DialogRootBuilder.BuildRootDialog(), ResumeAfter);
-            return Task.CompletedTask;
+            await context.PostAsync("Hello!");
+            context.Wait(MessageReceivedAsync);
         }
-
-        private Task ResumeAfter(IDialogContext context, IAwaitable<object> result)
+        
+        private Task MessageReceivedAsync(IDialogContext context, IAwaitable<object> result)
         {
-            context.Call(DialogRootBuilder.BuildRootDialog(), ResumeAfter);
+            context.Call(DialogRootBuilder.BuildRootDialog(), MessageReceivedAsync);
             return Task.CompletedTask;
         }
     }
