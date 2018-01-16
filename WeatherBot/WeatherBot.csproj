@@ -118,6 +118,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\Wit\WitEntities.cs" />
+    <Compile Include="Services\Wit\WitIntent.cs" />
+    <Compile Include="Services\Wit\WitResponse.cs" />
+    <Compile Include="Services\Wit\WitService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config">
