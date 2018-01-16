@@ -116,6 +116,7 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Dialogs\DisplayStringDialog.cs" />
     <Compile Include="Dialogs\MsBotFaqAnswerDialog.cs" />
+    <Compile Include="Dialogs\OptionsDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
     <Compile Include="Dialogs\WitIntentValueDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
