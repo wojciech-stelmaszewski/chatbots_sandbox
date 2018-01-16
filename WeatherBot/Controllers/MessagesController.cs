@@ -39,7 +39,7 @@ namespace WeatherBot
         private string GetFaqResponse(string message)
         {
             var witResponse = _witService.GetResponse(message);
-            WitIntent intent = witResponse.entities?.intent.FirstOrDefault(x => x.confidence >= ConfidenceBenchmark);
+            WitIntent intent = witResponse.entities?.intent?.FirstOrDefault(x => x.confidence >= ConfidenceBenchmark);
             if (intent != null)
             {
                 return MicrosoftBotFrameworkFaq.FindAnAnswer(intent.value);
