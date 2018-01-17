@@ -112,6 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Dialogs\LocationDialog.cs" />
     <Compile Include="Dialogs\QuestionDialog.cs" />
     <Compile Include="Dialogs\DialogRootBuilder.cs" />
     <Compile Include="Controllers\MessagesController.cs" />

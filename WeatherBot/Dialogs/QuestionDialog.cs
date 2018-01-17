@@ -8,14 +8,14 @@ namespace WeatherBot.Dialogs
     [Serializable]
     public class QuestionDialog : IDialog<string>
     {
-        private readonly string _messageText;
+        protected readonly string _messageText;
 
         public QuestionDialog(string messageText)
         {
             _messageText = messageText;
         }
 
-        public async Task StartAsync(IDialogContext context)
+        public virtual async Task StartAsync(IDialogContext context)
         {
             var message = context.MakeMessage();
             message.Text = _messageText;
@@ -24,7 +24,7 @@ namespace WeatherBot.Dialogs
             context.Wait(MessageReceivedAsync);
         }
 
-        private async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
+        protected async Task MessageReceivedAsync(IDialogContext context, IAwaitable<IMessageActivity> result)
         {
             var activity = await result;
             context.Done<string>(activity.Text ?? string.Empty);
