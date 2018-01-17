@@ -21,6 +21,11 @@ namespace WeatherBot
             {
                 await Conversation.SendAsync(activity, () => new RootDialog());
             }
+            if (activity.Type == ActivityTypes.DeleteUserData)
+            {
+                var stateClient = activity.GetStateClient();
+                stateClient.BotState.DeleteStateForUser(activity.ChannelId, activity.From.Id);
+            }
 
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using WeatherBot.Geo;
+using WeatherBot.Storage;
 using WeatherBot.Weather;
 
 namespace WeatherBot.Dialogs
@@ -26,6 +27,9 @@ namespace WeatherBot.Dialogs
             var weatherClient = new OpenWeatherClient("metric");
             var openWeatherResponse = await weatherClient.GetWeatherAsync(_latitude, _longitude);
             var weatherString = $"The temperature in {openWeatherResponse.Name} is {openWeatherResponse.Main.Temp}°C with lows of {openWeatherResponse.Main.TempMin}°C & highs of {openWeatherResponse.Main.TempMax}°C";
+
+            context.UserData.SetValue(Location.UserDataKey, openWeatherResponse.Name);
+
             context.Done(weatherString);
         }
     }

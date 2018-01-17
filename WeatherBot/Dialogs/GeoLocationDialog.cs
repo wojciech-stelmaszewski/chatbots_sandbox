@@ -49,6 +49,12 @@ namespace WeatherBot.Dialogs
             GeoLocation geoLocation = null;
             var activity = await result;
 
+            var location = context.UserData.GetValueOrDefault<string>(WeatherBot.Storage.Location.UserDataKey);
+            if (!string.IsNullOrWhiteSpace(location))
+            {
+                activity.Text = location;
+            }
+
             if (string.IsNullOrEmpty(activity.Text) && activity.ChannelId == FacebookChannelId)
             {
                 var facebookLocation = (FacebookLocation)activity.ChannelData.ToObject<FacebookLocation>();

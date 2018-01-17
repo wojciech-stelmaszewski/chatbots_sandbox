@@ -141,6 +141,7 @@
     <Compile Include="Services\Wit\WitIntent.cs" />
     <Compile Include="Services\Wit\WitResponse.cs" />
     <Compile Include="Services\Wit\WitService.cs" />
+    <Compile Include="Storage\Location.cs" />
     <Compile Include="Weather\OpenWeatherClient.cs" />
     <Compile Include="Weather\OpenWeatherResponse.cs" />
   </ItemGroup>
