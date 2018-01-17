@@ -112,7 +112,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Compile Include="Dialogs\LocationDialog.cs" />
+    <Compile Include="Dialogs\GeoLocationDialog.cs" />
     <Compile Include="Dialogs\QuestionDialog.cs" />
     <Compile Include="Dialogs\DialogRootBuilder.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
@@ -120,10 +120,10 @@
     <Compile Include="Dialogs\MsBotFaqAnswerDialog.cs" />
     <Compile Include="Dialogs\OptionsDialog.cs" />
     <Compile Include="Dialogs\RootDialog.cs" />
-    <Compile Include="Dialogs\GeoLocationDialog.cs" />
     <Compile Include="Dialogs\WeatherDialog.cs" />
     <Compile Include="Dialogs\WitIntentValueDialog.cs" />
     <Compile Include="Dialogs\YesNoDialog.cs" />
+    <Compile Include="Facebook\FacebookLocation.cs" />
     <Compile Include="Faq\MicrosoftBotFrameworkFaq.cs" />
     <Compile Include="Geo\AddressComponent.cs" />
     <Compile Include="Geo\GeocodeResponse.cs" />
