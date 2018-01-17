@@ -49,7 +49,7 @@ namespace WeatherBot.Dialogs
             GeoLocation geoLocation = null;
             var activity = await result;
 
-            if (activity.ChannelId == FacebookChannelId)
+            if (string.IsNullOrEmpty(activity.Text) && activity.ChannelId == FacebookChannelId)
             {
                 var facebookLocation = (FacebookLocation)activity.ChannelData.ToObject<FacebookLocation>();
                 double? latitude = facebookLocation?.message?.attachments?[0]?.payload?.coordinates?.lat;
