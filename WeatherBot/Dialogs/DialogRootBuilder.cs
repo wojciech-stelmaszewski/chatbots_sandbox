@@ -31,7 +31,8 @@ namespace WeatherBot.Dialogs
 
                      // If the user chose Weather
                      new Case<string, IDialog<object>>(x => Weather.Equals(x), (_, __) =>
-                        (from geoLocation in new GeoLocationDialog("What is your location?", GoogleLocationServiceApiKey, Language) select geoLocation).Switch(
+                        (from reuse in new ReuseLocationDialog()
+                         from geoLocation in new GeoLocationDialog("What is your location?", GoogleLocationServiceApiKey, Language, reuse) select geoLocation).Switch(
                              new Case<GeoLocation, IDialog<object>>(g => g != null, (x, geo) =>
                              from weatherString in new WeatherDialog(geo.Latitude, geo.Longitude)
                              from result in new DisplayStringDialog(weatherString)
