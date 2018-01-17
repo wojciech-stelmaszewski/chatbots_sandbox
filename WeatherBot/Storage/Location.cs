@@ -7,6 +7,6 @@ namespace WeatherBot.Storage
 {
     public class Location
     {
-        public const string UserDataKey = "loc";
+        public const string UserDataLocationKey = "loc";
     }
 }

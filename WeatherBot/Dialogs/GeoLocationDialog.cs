@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WeatherBot.Facebook;
 using WeatherBot.Geo;
+using WeatherBot.Weather;
 
 namespace WeatherBot.Dialogs
 {
@@ -49,12 +50,6 @@ namespace WeatherBot.Dialogs
             GeoLocation geoLocation = null;
             var activity = await result;
 
-            var location = context.UserData.GetValueOrDefault<string>(WeatherBot.Storage.Location.UserDataKey);
-            if (!string.IsNullOrWhiteSpace(location))
-            {
-                activity.Text = location;
-            }
-
             if (string.IsNullOrEmpty(activity.Text) && activity.ChannelId == FacebookChannelId)
             {
                 var facebookLocation = (FacebookLocation)activity.ChannelData.ToObject<FacebookLocation>();
@@ -80,6 +75,13 @@ namespace WeatherBot.Dialogs
                     Language = _language
                 };
                 geoLocation = await googleLocationService.GetLocationAsync(geoCodingRequest);
+            }
+
+            if (geoLocation != null)
+            {
+                var weatherLocation = context.UserData.GetValueOrDefault<WeatherLocation>(WeatherBot.Storage.Location.UserDataLocationKey) ?? new WeatherLocation();
+                weatherLocation.GeoLocation = geoLocation;
+                context.UserData.SetValue(WeatherBot.Storage.Location.UserDataLocationKey, weatherLocation);
             }
 
             context.Done<GeoLocation>(geoLocation);

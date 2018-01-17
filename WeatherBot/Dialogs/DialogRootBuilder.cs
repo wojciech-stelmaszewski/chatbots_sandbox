@@ -31,15 +31,32 @@ namespace WeatherBot.Dialogs
 
                      // If the user chose Weather
                      new Case<string, IDialog<object>>(x => Weather.Equals(x), (_, __) =>
-                        (from geoLocation in new GeoLocationDialog("What is your location?", GoogleLocationServiceApiKey, Language) select geoLocation).Switch(
-                             new Case<GeoLocation, IDialog<object>>(g => g != null, (x, geo) =>
-                             from weatherString in new WeatherDialog(geo.Latitude, geo.Longitude)
-                             from result in new DisplayStringDialog(weatherString)
-                             select result),
-                            new Case<GeoLocation, IDialog<object>>(g => g == null, (x, xx) =>
-                             from result in new DisplayStringDialog("Sorry - I don't know where that is!")
-                             select result)
+                        (from useExistingLocation in new UseExistingLocationDialog() select useExistingLocation).Switch(
+                            // Invalid input
+                            new Case<bool?, IDialog<object>>(use => use == null, (x, xx) =>
+                            from result in new DisplayStringDialog("Sorry - you need to choose yes or no!")
+                            select result),
+
+                            // User chose NOT to use existing location
+                            new Case<bool?, IDialog<object>>(use => use == false, (x, xx) =>
+                            (from geoLocation in new GeoLocationDialog("What is your location?", GoogleLocationServiceApiKey, Language) select geoLocation).Switch(
+                                // Geod data found
+                                new Case<GeoLocation, IDialog<object>>(g => g != null, (y, geo) =>
+                                from weatherString in new WeatherDialog(geo.Latitude, geo.Longitude)
+                                from result in new DisplayStringDialog(weatherString)
+                                select result),
+                                // No valid geo data
+                                new Case<GeoLocation, IDialog<object>>(g => g == null, (y, geo) =>
+                                from result in new DisplayStringDialog("Sorry - I don't know where that is!")
+                                select result)
                             ).Unwrap()),
+
+                            // Use existing location
+                            new Case<bool?, IDialog<object>>(use => use == true, (x, xx) =>
+                             from weatherString in new WeatherDialog()
+                             from result in new DisplayStringDialog(weatherString)
+                             select result)
+                             ).Unwrap()),
 
                      // If the user chose something else
                      new Case<string, IDialog<object>>(x => SomethingElse.Equals(x), (_, __) =>

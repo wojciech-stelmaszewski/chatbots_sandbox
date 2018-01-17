@@ -13,8 +13,12 @@ namespace WeatherBot.Dialogs
     [Serializable]
     public class WeatherDialog : IDialog<string>
     {
-        private readonly double _latitude;
-        private readonly double _longitude;
+        private double _latitude;
+        private double _longitude;
+
+        public WeatherDialog()
+        {
+        }
 
         public WeatherDialog(double latitude, double longitude)
         {
@@ -24,12 +28,23 @@ namespace WeatherBot.Dialogs
 
         public async Task StartAsync(IDialogContext context)
         {
+            var weatherLocation = context.UserData.GetValueOrDefault<WeatherLocation>(WeatherBot.Storage.Location.UserDataLocationKey);
+            if (weatherLocation?.GeoLocation != null)
+            {
+                _latitude = weatherLocation.GeoLocation.Latitude;
+                _longitude = weatherLocation.GeoLocation.Longitude;
+            }
+
             var weatherClient = new OpenWeatherClient("metric");
             var openWeatherResponse = await weatherClient.GetWeatherAsync(_latitude, _longitude);
+
+            if (weatherLocation != null)
+            {
+                weatherLocation.Name = openWeatherResponse.Name;
+                context.UserData.SetValue(WeatherBot.Storage.Location.UserDataLocationKey, weatherLocation);
+            }
+
             var weatherString = $"The temperature in {openWeatherResponse.Name} is {openWeatherResponse.Main.Temp}°C with lows of {openWeatherResponse.Main.TempMin}°C & highs of {openWeatherResponse.Main.TempMax}°C";
-
-            context.UserData.SetValue(Location.UserDataKey, openWeatherResponse.Name);
-
             context.Done(weatherString);
         }
     }

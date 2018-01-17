@@ -9,10 +9,21 @@ namespace WeatherBot.Dialogs
     [Serializable]
     public class YesNoDialog : IDialog<bool?>
     {
-        public async Task StartAsync(IDialogContext context)
+        protected string _message;
+
+        public YesNoDialog()
+        {
+        }
+
+        public YesNoDialog(string message)
+        {
+            _message = message;
+        }
+
+        public virtual async Task StartAsync(IDialogContext context)
         {
             var message = context.MakeMessage();
-            message.Text = "Would you like to learn something about MS Bot Framework?";
+            message.Text = _message;
             message.SuggestedActions = new SuggestedActions
             {
                 Actions = new List<CardAction>
