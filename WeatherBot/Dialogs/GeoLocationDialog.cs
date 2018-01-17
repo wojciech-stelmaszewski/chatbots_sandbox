@@ -79,7 +79,17 @@ namespace WeatherBot.Dialogs
 
             if (geoLocation != null)
             {
-                var weatherLocation = context.UserData.GetValueOrDefault<WeatherLocation>(WeatherBot.Storage.Location.UserDataLocationKey) ?? new WeatherLocation();
+                WeatherLocation weatherLocation = null;
+                try
+                {
+                    weatherLocation = context.UserData.GetValueOrDefault<WeatherLocation>(WeatherBot.Storage.Location.UserDataLocationKey) ?? new WeatherLocation();
+                }
+                catch (Exception ex)
+                {
+                    // Do nothing
+                    weatherLocation = new WeatherLocation();
+                }
+
                 weatherLocation.GeoLocation = geoLocation;
                 context.UserData.SetValue(WeatherBot.Storage.Location.UserDataLocationKey, weatherLocation);
             }

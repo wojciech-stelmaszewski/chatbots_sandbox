@@ -18,7 +18,17 @@ namespace WeatherBot.Dialogs
         public override async Task StartAsync(IDialogContext context)
         {
             var message = context.MakeMessage();
-            var existingLocation = context.UserData.GetValueOrDefault<WeatherLocation>(WeatherBot.Storage.Location.UserDataLocationKey);
+
+            WeatherLocation existingLocation = null;
+            try
+            {
+                existingLocation = context.UserData.GetValueOrDefault<WeatherLocation>(WeatherBot.Storage.Location.UserDataLocationKey);
+            }
+            catch (Exception ex)
+            {
+                // Do nothing
+            }
+            
             if (existingLocation != null)
             {
                 _message = $"Your current location is {existingLocation.Name}. Would you like to use this location?";
